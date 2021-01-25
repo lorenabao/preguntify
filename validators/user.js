@@ -7,19 +7,24 @@ const authValidator = Joi.object({
         .error(
             new Error('email should be a standard email')
         ),
-    
+
     username: Joi.string()
-            .required()
-            .error(
-                new Error('username is required')
-            ),
+        .required()
+        .error(
+            new Error('username is required')
+        ),
 
     password: Joi.string()
         .required()
         .error(
             new Error('password is required')
-        )
-
+        ),
+    repeatPassword: Joi.string()
+        .equal(Joi.ref('password'))
+        .required()
+        .error(
+            new Error('password does not match')
+        ),
 })
 
 const loginValidator = Joi.object({

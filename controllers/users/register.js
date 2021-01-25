@@ -56,11 +56,14 @@ const registerUser = async (email, username, password, validationCode) => {
 
 }
 
+// Falta comprobar que el usuario que se registre no exista con el campo registered_user = true (si estuviera false en el pasado se borró la cuenta)
+// y que el username que proporciona no este registrado. 
+
 const register = async (req, res) => {
     try {
         await authValidator.validateAsync(req.body)
 
-        const { email, username, password } = req.body
+        const { email, username, password, repeatPassword } = req.body
         console.log(`New user to register: ${username}, ${email}`)
 
         const passwordBcrypt = await bcrypt.hash(password, 10);
@@ -76,9 +79,8 @@ const register = async (req, res) => {
         console.log('Sending confimation mail to new user')
 
     } catch (e) {
-        res.status(400).send()
+        res.status(400).send(e.message)
         console.log('Error registration user')
-        console.log(e.message)
         return
     }
 

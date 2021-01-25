@@ -40,7 +40,7 @@ const updatePassword = async (password, id) => {
 
 const resetPassword = async (req, res) => {
     try {
-        const { recoverCode, newPassword } = req.body;
+        const { recoverCode, repeatPassword, newPassword } = req.body;
 
         const [user] = await resetUserPassword(recoverCode)
 
